@@ -26,7 +26,7 @@ app.use(limiter);
 app.use(bodyParser.json());
 app.use(requestLogger);
 app.use(cors({
-  origin: ['http://mesto.world.nomoredomains.monster', 'https://mesto.world.nomoredomains.monster'],
+  origin: ['http://movies.explorer.nomoredomains.club', 'https://movies.explorer.nomoredomains.club'],
   credentials: true,
 }));
 app.use(router);
