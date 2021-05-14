@@ -28,15 +28,21 @@ const validateUserId = celebrate({
   }),
 });
 
-// const createCardValidation = celebrate({
-//   body: Joi.object().keys({
-//     name: Joi.string().min(2).max(30).required(),
-//     link: Joi.string().required().pattern(
-// eslint-disable-next-line max-len
-//       /^(https?:\/\/)(www\.)?([\da-z-.]+)\.([a-z.]{2,6})[\da-zA-Z-._~:?#[\]@!$&'()*+,;=/]*\/?#?$/,
-//     ),
-//   }),
-// });
+const createMovieValidation = celebrate({
+  body: Joi.object().keys({
+    country: Joi.string().required(),
+    director: Joi.string().required(),
+    duration: Joi.number().required(),
+    year: Joi.string().required(),
+    description: Joi.string().required(),
+    image: Joi.string().required().pattern(new RegExp(/^(https?:\/\/)(www\.)?[\w-]+(\.[a-z])+[\w~!@#$%&*()-+=:;\\'",.?/]+#?/i)),
+    trailer: Joi.string().required().pattern(new RegExp(/^(https?:\/\/)(www\.)?[\w-]+(\.[a-z])+[\w~!@#$%&*()-+=:;\\'",.?/]+#?/i)),
+    thumbnail: Joi.string().required().pattern(new RegExp(/^(https?:\/\/)(www\.)?[\w-]+(\.[a-z])+[\w~!@#$%&*()-+=:;\\'",.?/]+#?/i)),
+    movieId: Joi.number().required(),
+    nameRU: Joi.string().required(),
+    nameEN: Joi.string().required(),
+  }),
+});
 
 const deleteMovieValidation = celebrate({
   params: Joi.object().keys({
@@ -49,6 +55,6 @@ module.exports = {
   createUserValidation,
   updateUserValidation,
   validateUserId,
-  // createCardValidation,
+  createMovieValidation,
   deleteMovieValidation,
 };

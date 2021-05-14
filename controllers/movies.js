@@ -19,7 +19,7 @@ const deleteMovie = (req, res, next) => {
     .orFail(new NotFoundError('Такой фильм отсутствует'))
     .then((movie) => {
       if (req.user._id === String(movie.owner)) {
-        return Movie.findByIdAndDelete(req.params.movieId)
+        return movie.remove()
           .then(() => res.send({ message: 'Фильм удалён' }));
       }
       throw new ForbiddenError('У вас нет прав удалять этот фильм!');

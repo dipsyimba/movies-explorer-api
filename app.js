@@ -22,9 +22,9 @@ mongoose.connect(NODE_ENV === 'production' ? DATA_BASE : 'mongodb://localhost:27
 
 app.use(cookieParser());
 app.use(helmet());
+app.use(requestLogger);
 app.use(limiter);
 app.use(bodyParser.json());
-app.use(requestLogger);
 app.use(cors({
   origin: ['http://movies.explorer.nomoredomains.club', 'https://movies.explorer.nomoredomains.club'],
   credentials: true,
