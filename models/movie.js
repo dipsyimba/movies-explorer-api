@@ -53,8 +53,8 @@ const movieSchema = new mongoose.Schema({
     required: true,
     ref: 'user',
   },
-  movieId: { // тут мне пока что не совсем понятно какого типа будет id
-    type: String, // поставил пока что строку
+  movieId: {
+    type: Number,
     required: true,
   },
   nameRU: {
