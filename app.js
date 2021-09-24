@@ -10,7 +10,7 @@ const limiter = require('./middlewares/rate-limit');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const router = require('./routes/index');
 
-const { PORT = 3001 } = process.env;
+const { PORT = 3000 } = process.env;
 const { DATA_BASE, NODE_ENV } = process.env;
 
 const app = express();
@@ -18,7 +18,9 @@ mongoose.connect(NODE_ENV === 'production' ? DATA_BASE : 'mongodb://localhost:27
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
-});
+})
+  .then(() => console.log('DB Connected!'))
+  .catch((err) => console.log(err));
 
 app.use(cookieParser());
 app.use(helmet());
