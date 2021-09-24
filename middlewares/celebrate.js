@@ -44,6 +44,12 @@ const createMovieValidation = celebrate({
   }),
 });
 
+const changeLikeValidation = celebrate({
+  params: Joi.object().keys({
+    movieId: Joi.string().hex().length(24).required(),
+  }),
+});
+
 const deleteMovieValidation = celebrate({
   params: Joi.object().keys({
     movieId: Joi.string().hex().length(24).required(),
@@ -57,4 +63,5 @@ module.exports = {
   validateUserId,
   createMovieValidation,
   deleteMovieValidation,
+  changeLikeValidation,
 };

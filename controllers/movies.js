@@ -1,9 +1,21 @@
+/* eslint-disable eqeqeq */
 const Movie = require('../models/movie');
 
 const DatabaseError = require('../errors/databaseError');
 const NotFoundError = require('../errors/notFoundError');
 const ForbiddenError = require('../errors/forbiddenError');
 const IncorrectValueError = require('../errors/incorrectValueError');
+
+// const getMovies = (req, res, next) => {
+//   const userId = req.user._id;
+//   Movie.find({})
+//     .orFail(new DatabaseError('В базе данных отсутствуют фильмы'))
+//     .then((movies) => {
+//       const likedMovies = movies.filter((movie) => movie.likes.some((i) => i == userId));
+//       res.send(likedMovies);
+//     })
+//     .catch((error) => next(error));
+// };
 
 const getMovies = (req, res, next) => {
   Movie.find({})
@@ -60,7 +72,7 @@ const createMovie = (req, res, next) => {
     nameEN,
     thumbnail,
     movieId,
-    owner: userId,
+    likes: userId,
   })
     .then((movie) => {
       res.send(movie);
@@ -73,8 +85,43 @@ const createMovie = (req, res, next) => {
     });
 };
 
+const likeMovie = (req, res, next) => {
+  const userId = req.user._id;
+  Movie.findByIdAndUpdate(
+    req.params.movieId,
+    { $addToSet: { likes: userId } },
+    { new: true },
+  )
+    .then((addLike) => {
+      res.send(addLike);
+    })
+    .catch((err) => {
+      res.send(err);
+      next(err);
+    });
+};
+
+const dislikeMovie = (req, res, next) => {
+  const userId = req.user._id;
+  const { movieId } = req.params;
+  Movie.findByIdAndUpdate(
+    movieId,
+    { $pull: { likes: userId } },
+    { new: true },
+  )
+    .then((dislike) => {
+      if (!dislike) {
+        throw new NotFoundError('Не найдено');
+      }
+      res.send(dislike);
+    })
+    .catch(next);
+};
+
 module.exports = {
   getMovies,
   deleteMovie,
   createMovie,
+  likeMovie,
+  dislikeMovie,
 };

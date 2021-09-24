@@ -10,7 +10,7 @@ const limiter = require('./middlewares/rate-limit');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const router = require('./routes/index');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 const { DATA_BASE, NODE_ENV } = process.env;
 
 const app = express();
@@ -26,7 +26,7 @@ app.use(requestLogger);
 app.use(limiter);
 app.use(bodyParser.json());
 app.use(cors({
-  origin: ['http://movies.explorer.nomoredomains.club', 'https://movies.explorer.nomoredomains.club'],
+  origin: ['http://movies.explorer.nomoredomains.club', 'https://movies.explorer.nomoredomains.club', 'http://localhost:3000', '*'],
   credentials: true,
 }));
 app.use(router);
